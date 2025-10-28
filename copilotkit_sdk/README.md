@@ -13,14 +13,14 @@ AI 코파일럿과 에이전트를 애플리케이션에 통합하기 위한 Pyt
 
 ## 주요 특징
 
-- 🚀 **LangGraph/LangChain 통합** - 손쉬운 연동
-- 🔄 **상태 기반 대화** - 스레드 기반 대화 관리 및 체크포인트
-- 🛠 **확장 가능한 에이전트** - LangGraphAGUIAgent로 커스텀 에이전트 구축
-- 🔌 **FastAPI 엔드포인트** - 즉시 사용 가능한 REST API
-- 📚 **완전한 한글 문서** - 핵심 모듈에 상세한 한글 주석 및 Mermaid 다이어그램
+- **LangGraph/LangChain 통합** - 손쉬운 연동
+- **상태 기반 대화** - 스레드 기반 대화 관리 및 체크포인트
+- **확장 가능한 에이전트** - LangGraphAGUIAgent로 커스텀 에이전트 구축
+- **FastAPI 엔드포인트** - 즉시 사용 가능한 REST API
+- **완전한 한글 문서** - 핵심 모듈에 상세한 한글 주석 및 Mermaid 다이어그램
 
 <!-- CUSTOMIZATION: CrewAI support disabled -->
-<!-- - 🤝 Optional CrewAI integration -->
+<!-- - Optional CrewAI integration -->
 
 ---
 
@@ -273,4 +273,4 @@ print('✓ All imports successful!')
 **Upstream**: https://github.com/CopilotKit/CopilotKit/tree/main/sdk-python
 **Last Sync**: 2025-10-28
 
-Built with ❤️ by the CopilotKit team | 한글 문서화 by Development Team
+Built by the CopilotKit team | 한글 문서화 by Development Team
