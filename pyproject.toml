@@ -1,7 +1,7 @@
 [project]
-name = "online-seminar"
+name = "custom-copilotkit-python-sdk"
 version = "0.1.0"
-description = "Online seminar project with customized CopilotKit SDK"
+description = "Custom CopilotKit Python SDK with LangGraph v1.0 support and Korean documentation"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
