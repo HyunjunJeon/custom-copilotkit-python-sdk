@@ -325,6 +325,143 @@ git checkout origin/main -- copilotkit_sdk/README.md
 
 ---
 
+### #5: Korean Documentation for Core API (Phase 1)
+**Date**: 2025-10-28
+**Impact**: Documentation - No functional changes
+**Files Modified**:
+- `copilotkit_sdk/copilotkit/__init__.py` - Added comprehensive package documentation
+- `copilotkit_sdk/copilotkit/action.py` - Added Action class and lifecycle documentation
+- `copilotkit_sdk/copilotkit/parameter.py` - Added parameter type system documentation
+- `copilotkit_sdk/copilotkit/agent.py` - Added Agent ABC documentation
+
+**Purpose**:
+Core API Bundle (Phase 1/3)에 해당하는 4개 핵심 파일에 완전한 한글 문서를 추가했습니다.
+사용자가 SDK를 사용할 때 가장 먼저 접하는 Public API 진입점들을 상세하게 문서화하여
+개발자 경험을 개선하고, 학습 곡선을 낮추는 것이 목표입니다.
+
+**Changes Summary**:
+
+1. **`__init__.py`** (~243라인):
+   - **Package Structure Mermaid Diagram**: 모듈 의존성 시각화
+   - **Quick Start 가이드**: 3가지 사용 시나리오
+     1. 간단한 액션 정의
+     2. LangGraph 에이전트 통합
+     3. 프론트엔드 연결
+   - **Public API Reference**: Export하는 모든 클래스/함수 목록
+   - **Import Examples**: 기본, 에이전트, LangGraph, FastAPI import 예제
+   - **주요 컴포넌트 설명**: 5가지 핵심 컴포넌트 개요
+
+2. **`action.py`** (~571라인):
+   - **Action Lifecycle Sequence Diagram**: 정의 → 등록 → 실행 → 에러 처리
+   - **모듈 문서**: 주요 개념 (Action, Handler, Parameter) 상세 설명
+   - **Usage Examples**: 4가지 실용 예제
+     1. 동기 핸들러 액션
+     2. 비동기 핸들러 액션
+     3. 복잡한 파라미터 액션
+     4. SDK 등록 및 동적 빌더
+   - **Best Practices**: 5가지 모범 사례
+   - **Common Pitfalls**: 흔한 실수 및 해결법
+   - **TypedDict 문서**: ActionDict, ActionResultDict
+   - **클래스 문서**: Action 클래스 및 모든 메서드 (\_\_init\_\_, execute, dict_repr)
+
+3. **`parameter.py`** (~620라인):
+   - **Type Hierarchy Mermaid Diagram**: 파라미터 타입 계층 구조
+   - **모듈 문서**: 3가지 파라미터 타입 (SimpleParameter, StringParameter, ObjectParameter) 설명
+   - **Usage Examples**: 5가지 실용 예제
+     1. SimpleParameter (number, boolean, 배열)
+     2. StringParameter (일반 문자열, Enum)
+     3. ObjectParameter (중첩 객체, 객체 배열)
+     4. normalize_parameters() 사용법
+     5. Action과 함께 사용
+   - **Normalization Rules**: 정규화 규칙 4가지
+   - **Best Practices**: 5가지 모범 사례
+   - **Common Pitfalls**: 흔한 실수 3가지
+   - **TypedDict 문서**: SimpleParameter, ObjectParameter, StringParameter, Parameter Union
+   - **함수 문서**: normalize_parameters(), _normalize_parameter()
+
+4. **`agent.py`** (~652라인):
+   - **Agent Hierarchy Mermaid Diagram**: 상속 구조 및 구현 요구사항
+   - **모듈 문서**: 주요 개념 (Agent, Thread, State, Abstract Methods) 설명
+   - **Implementation Guide**: 3가지 구현 예제
+     1. 커스텀 에이전트 구현
+     2. LangGraph 에이전트 사용 (권장)
+     3. SDK 등록 및 동적 빌더
+   - **Agent vs Action**: 언제 어떤 것을 사용할지 비교표
+   - **Thread Management**: Thread 관리 예제 코드
+   - **Best Practices**: 5가지 모범 사례
+   - **Common Pitfalls**: 흔한 실수 3가지
+   - **TypedDict 문서**: AgentDict
+   - **클래스 문서**: Agent ABC 및 모든 메서드 (\_\_init\_\_, execute, get_state, dict_repr)
+
+**Documentation Features**:
+- **4개 Mermaid 다이어그램**:
+  - Package Structure (모듈 의존성)
+  - Action Lifecycle (시퀀스 다이어그램)
+  - Parameter Type Hierarchy (타입 계층)
+  - Agent Hierarchy (상속 구조)
+- **파일별 상세 docstring**: 모든 클래스, 함수, 메서드, TypedDict에 한글 docstring
+- **표준 docstring 형식**: Parameters, Returns, Raises, Examples, Notes, See Also 섹션
+- **실용적 예제**: 각 기능마다 실제 사용 가능한 코드 예제 포함
+- **모범 사례 및 주의사항**: Best Practices, Common Pitfalls 섹션으로 실수 방지
+- **Emoji 없음**: 전문적인 문서 스타일 유지
+
+**Documentation Statistics**:
+- __init__.py: ~243라인 (모듈 문서 + 1개 다이어그램)
+- action.py: ~571라인 (모듈 문서 + 3개 클래스/TypedDict + 1개 다이어그램)
+- parameter.py: ~620라인 (모듈 문서 + 4개 TypedDict + 2개 함수 + 1개 다이어그램)
+- agent.py: ~652라인 (모듈 문서 + 2개 클래스/TypedDict + 1개 다이어그램)
+- **총 ~2,086라인**의 한글 문서 추가
+- **총 4개 Mermaid 다이어그램** (구조 및 플로우 시각화)
+
+**Testing**:
+```bash
+# 모든 임포트 및 기능 정상 작동 확인
+uv run python -c "
+from copilotkit import CopilotKitRemoteEndpoint, Action, Parameter, Agent
+from copilotkit import LangGraphAgent, LangGraphAGUIAgent, CopilotKitState
+print('✓ All imports successful!')
+print('✓ Documentation added without breaking functionality')
+"
+```
+- ✅ 모든 임포트 정상 작동
+- ✅ 기능적 변경 사항 없음 (문서만 추가)
+- ✅ 타입 힌트 및 구조 유지
+- ✅ 기존 코드 동작 변경 없음
+
+**Upstream Sync Notes**:
+- 영향도: 낮음 - 문서만 추가되었으므로 upstream 병합 시 충돌 가능성 낮음
+- 문서는 코드와 독립적이므로 upstream 변경에 영향받지 않음
+- 다만, 새로운 메서드나 파라미터가 추가되면 해당 부분에도 한글 문서 추가 필요
+- 함수 시그니처 변경 시 docstring도 함께 업데이트 필요
+
+**Rollback Instructions**:
+문서 제거가 필요한 경우 (권장하지 않음):
+```bash
+git checkout origin/main -- copilotkit_sdk/copilotkit/__init__.py
+git checkout origin/main -- copilotkit_sdk/copilotkit/action.py
+git checkout origin/main -- copilotkit_sdk/copilotkit/parameter.py
+git checkout origin/main -- copilotkit_sdk/copilotkit/agent.py
+```
+
+**Related Customizations**:
+이 문서화는 3단계 계획의 첫 번째(Phase 1)로, 이후 Phase 2, 3가 예정되어 있습니다:
+- **Phase 1 (이번 작업)**: Core API Bundle (__init__, action, parameter, agent)
+- **Phase 2 (예정)**: Protocol & Runtime System (protocol.py, runloop.py)
+- **Phase 3 (예정)**: Supporting Utilities (exc.py, logging.py, utils.py, html.py)
+
+전체 문서화가 완료되면 #2, #3, #4와 함께 SDK의 완전한 한글 문서 세트를 구성합니다.
+
+**Next Steps**:
+Phase 1 완료 후 다음 단계:
+1. Phase 2: Protocol & Runtime System 문서화 (protocol.py, runloop.py)
+   - 예상 라인 수: ~1,200-1,500라인
+   - 예상 다이어그램: 3개 (Event Protocol Flow, Run Loop Architecture, Event Processing Pipeline)
+2. Phase 3: Utilities 문서화 (exc.py, logging.py, utils.py, html.py)
+   - 예상 라인 수: ~400-600라인
+   - 예상 다이어그램: 없음
+
+---
+
 ## 커스터마이징 가이드라인
 
 ### 새 파일 추가 (권장)
