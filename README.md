@@ -3,7 +3,7 @@
 CopilotKit Python SDK를 기반으로 한 커스텀 버전입니다. LangGraph v1.0 완전 호환 및 한글 문서화가 완료되었습니다.
 
 [![LangGraph v1.0.1](https://img.shields.io/badge/LangGraph-v1.0.1-blue)](https://github.com/langchain-ai/langgraph)
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
+[![Python 3.13+](https://img.shields.io/badge/Python-3.13%2B-blue)](https://www.python.org/)
 [![Tests](https://img.shields.io/badge/tests-15%2F15%20passing-brightgreen)](./copilotkit_sdk/tests/)
 
 ## 프로젝트 개요
@@ -72,7 +72,7 @@ copilotkit_sdk/tests/
 
 ### 요구사항
 
-- **Python**: 3.10 이상 (3.13 지원)
+- **Python**: 3.13 이상
 - **패키지 매니저**: [uv](https://github.com/astral-sh/uv)
 
 ### 설치
@@ -273,7 +273,7 @@ git merge upstream/main
 - **Base Version**: CopilotKit v0.1.70
 - **LangGraph**: v1.0.1
 - **LangChain**: v0.3.28
-- **Python**: 3.10+ (3.13 지원)
+- **Python**: 3.13 이상
 
 ## 라이선스
 
