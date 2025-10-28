@@ -244,6 +244,87 @@ CopilotKit SDK의 핵심 모듈에 대한 완전한 한글 문서를 제공합�
 
 ---
 
+### #4: Added Code Navigation Guide
+**Date**: 2025-10-28
+**Impact**: Documentation - No functional changes
+**Files Modified**:
+- `docs/CODE_NAVIGATION.md` - New file (완전 새 파일)
+- `copilotkit_sdk/README.md` - Added code navigation section
+
+**Purpose**:
+SDK 내부 구조를 쉽게 이해하고 탐색할 수 있도록 코드 네비게이션 가이드를 추가했습니다.
+개발자가 SDK를 확장하거나 내부 동작을 파악할 때 참고할 수 있는 완전한 로드맵을 제공합니다.
+
+**Changes Summary**:
+
+1. **`docs/CODE_NAVIGATION.md`** (새 파일, ~900라인):
+   - **Entry Points**: Public API 및 Integration 진입점
+   - **Module Dependencies**: 전체 아키텍처 Mermaid 다이어그램
+   - **Code Path Scenarios**: 4가지 주요 사용 시나리오
+     1. 기본 액션 실행 (Sequence diagram)
+     2. LangGraph Agent 실행 스트리밍 (Sequence diagram)
+     3. 동적 Actions/Agents 빌더 (Sequence diagram)
+     4. LangGraph 커스텀 이벤트 사용 (Sequence diagram)
+   - **Data Flow**: 3가지 핵심 데이터 흐름
+     - 메시지 변환 흐름 (CopilotKit ↔ LangChain)
+     - 상태 관리 흐름
+     - 이벤트 스트리밍 흐름
+   - **Key Classes**: 주요 클래스별 책임과 사용 시점
+   - **Quick Reference**: 빠른 참조 및 FAQ
+
+2. **`copilotkit_sdk/README.md`**:
+   - "코드 네비게이션" 섹션 추가 (라인 272-311)
+   - 주요 질문에 대한 빠른 답변 6개 포함
+   - CODE_NAVIGATION.md, CUSTOMIZATIONS.md, UPSTREAM_SYNC.md 링크
+
+**Documentation Features**:
+- **5개 Mermaid 다이어그램**:
+  - 1개 Architecture diagram (모듈 의존성)
+  - 4개 Sequence diagrams (시나리오별 코드 경로)
+  - 3개 Flow diagrams (데이터 흐름)
+- **파일:라인번호:함수명 형식**으로 정확한 위치 표시
+- **한글 작성**, Emoji 없음
+- **실제 사용 예제 코드** 포함
+- **Quick Reference 테이블** (파일별 주요 함수 위치)
+
+**Documentation Statistics**:
+- CODE_NAVIGATION.md: ~900라인
+- Mermaid 다이어그램: 8개
+- 코드 시나리오: 4개 (각각 상세 경로 포함)
+- Quick Reference 항목: 20개 이상
+
+**Use Cases**:
+이 가이드는 다음과 같은 질문에 답합니다:
+- "FastAPI 요청이 들어왔을 때 어떤 파일들을 거쳐가나?"
+- "메시지는 어떻게 변환되나?"
+- "동적 빌더는 어떻게 동작하나?"
+- "커스텀 이벤트는 어디서 처리되나?"
+- "새로운 기능을 추가하려면 어디를 수정해야 하나?"
+
+**Testing**:
+- 모든 파일 경로 및 라인 번호 검증 완료
+- 링크 확인 완료
+- 코드 예제 동작 확인
+
+**Upstream Sync Notes**:
+- 영향도: 없음 - 완전히 새로운 문서 파일
+- Upstream 변경 시: 함수 시그니처나 파일 위치 변경 시 라인 번호 업데이트 필요
+- 새로운 기능 추가 시: CODE_NAVIGATION.md에 해당 경로 추가 권장
+
+**Rollback Instructions**:
+문서 제거가 필요한 경우 (권장하지 않음):
+```bash
+rm docs/CODE_NAVIGATION.md
+git checkout origin/main -- copilotkit_sdk/README.md
+```
+
+**Related Customizations**:
+이 가이드는 #2, #3의 한글 문서화와 함께 SDK의 완전한 문서 세트를 구성합니다:
+- #2, #3: 각 모듈의 상세 기능 설명
+- #4: 모듈 간 연결 및 전체 구조 설명
+
+---
+
 ## 커스터마이징 가이드라인
 
 ### 새 파일 추가 (권장)

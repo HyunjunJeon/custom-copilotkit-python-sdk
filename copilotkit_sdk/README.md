@@ -269,6 +269,47 @@ print('✓ All imports successful!')
 
 ---
 
+## 코드 네비게이션
+
+SDK 내부 구조와 모듈 간 연결 관계를 이해하고 싶다면:
+
+### 문서 가이드
+
+- **[코드 네비게이션 가이드](../docs/CODE_NAVIGATION.md)** - SDK 전체 구조 및 코드 경로
+  - Entry Points: SDK 진입점
+  - Module Dependencies: 모듈 의존성 다이어그램
+  - Code Path Scenarios: 4가지 주요 시나리오별 코드 경로
+  - Data Flow: 메시지/상태/이벤트 흐름
+  - Quick Reference: 빠른 참조 가이드
+
+- **[커스터마이징 로그](../docs/CUSTOMIZATIONS.md)** - 변경 이력 및 업스트림 동기화 주의사항
+
+- **[업스트림 동기화 가이드](../docs/UPSTREAM_SYNC.md)** - 업스트림 업데이트 방법
+
+### 주요 질문에 대한 빠른 답변
+
+**Q: SDK를 FastAPI와 통합하려면?**
+→ `integrations/fastapi.py` - `add_fastapi_endpoint()`
+
+**Q: 커스텀 액션을 만들려면?**
+→ `action.py` - `Action` 클래스
+
+**Q: LangGraph 에이전트를 만들려면?**
+→ `langgraph_agui_agent.py` - `LangGraphAGUIAgent` 클래스
+
+**Q: 사용자별로 다른 액션/에이전트를 제공하려면?**
+→ `sdk.py` - 동적 빌더 (callable 전달)
+
+**Q: 에이전트 실행 중 진행 상황을 업데이트하려면?**
+→ `langgraph.py` - `copilotkit_emit_state()`
+
+**Q: 사용자 입력을 대기하려면?**
+→ `langgraph.py` - `copilotkit_interrupt()`
+
+상세 내용은 [CODE_NAVIGATION.md](../docs/CODE_NAVIGATION.md)를 참조하세요.
+
+---
+
 **Base Version**: v0.1.70 (2025-10-28)
 **Upstream**: https://github.com/CopilotKit/CopilotKit/tree/main/sdk-python
 **Last Sync**: 2025-10-28
