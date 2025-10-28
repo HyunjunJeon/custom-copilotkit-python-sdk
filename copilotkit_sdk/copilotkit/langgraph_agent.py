@@ -1,4 +1,177 @@
-"""LangGraph agent for CopilotKit"""
+"""
+LangGraph Agent for CopilotKit
+
+이 모듈은 LangGraph 기반의 AI 에이전트를 CopilotKit과 통합하기 위한 핵심 클래스를 제공합니다.
+LangGraphAgent는 LangGraph의 상태 그래프를 CopilotKit의 스트리밍 프로토콜과 연결하여,
+실시간으로 에이전트의 실행 상태를 클라이언트에게 전달합니다.
+
+주요 기능:
+- LangGraph 그래프 실행 및 상태 관리
+- 실시간 이벤트 스트리밍 (메시지, 상태, 도구 호출 등)
+- 스레드 기반 대화 이력 관리
+- 인터럽트 처리 및 재개 지원
+- 메시지 변환 (CopilotKit <-> LangChain 형식)
+
+Architecture Overview:
+```mermaid
+graph TB
+    subgraph "Client Layer"
+    A[CopilotKit Client]
+    end
+
+    subgraph "FastAPI Integration"
+    B[handle_execute_agent]
+    end
+
+    subgraph "LangGraphAgent"
+    C[execute method]
+    D[_stream_events]
+    E[prepare_stream]
+    F[prepare_regenerate_stream]
+    end
+
+    subgraph "LangGraph Core"
+    G[CompiledStateGraph]
+    H[astream_events]
+    I[Checkpointer]
+    end
+
+    subgraph "State Management"
+    J[merge_state]
+    K[convert_messages]
+    L[filter_state_on_schema_keys]
+    end
+
+    A -->|HTTP POST| B
+    B -->|sdk.execute_agent| C
+    C --> D
+    D --> E
+    E --> J
+    E --> K
+    E --> G
+    G --> H
+    H -->|events| D
+    D -->|emit| L
+    D -->|stream| B
+    B -->|SSE| A
+
+    D -.->|regenerate?| F
+    F --> I
+    I --> G
+
+    style A fill:#e1f5ff
+    style G fill:#fff4e1
+    style D fill:#ffe1e1
+```
+
+Execution Flow:
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant F as FastAPI
+    participant L as LangGraphAgent
+    participant G as LangGraph
+    participant S as Checkpointer
+
+    C->>F: POST /agent/my_agent
+    F->>L: execute(state, messages, thread_id)
+    L->>L: _stream_events()
+
+    alt 새 대화 시작
+        L->>L: prepare_stream(mode="start")
+        L->>G: astream_events(initial_state)
+    else 대화 재개
+        L->>S: aget_state(thread_id)
+        S-->>L: previous_state
+        L->>L: prepare_stream(mode="continue")
+        L->>G: aupdate_state(state, node_name)
+        L->>G: astream_events(resume_input)
+    end
+
+    loop 이벤트 스트리밍
+        G-->>L: event (on_chat_model_stream)
+        L->>L: _emit_state_sync_event()
+        L-->>F: state_sync_event (JSON)
+        F-->>C: SSE event
+
+        G-->>L: event (on_tool_calls)
+        L-->>F: tool_call_event (JSON)
+        F-->>C: SSE event
+    end
+
+    L->>G: aget_state(config)
+    G-->>L: final_state
+    L->>L: _emit_state_sync_event(include_messages=True)
+    L-->>F: final_state (JSON)
+    F-->>C: SSE event (close)
+```
+
+State Management:
+```mermaid
+graph LR
+    subgraph "Input Processing"
+    A[Client Messages] --> B[convert_messages]
+    B --> C[LangChain Messages]
+    end
+
+    subgraph "State Merging"
+    C --> D[merge_state]
+    E[Current State] --> D
+    F[Actions] --> D
+    D --> G[Merged State]
+    end
+
+    subgraph "LangGraph Execution"
+    G --> H[Graph Nodes]
+    H --> I[Updated State]
+    end
+
+    subgraph "Output Processing"
+    I --> J[filter_state_on_schema_keys]
+    J --> K[State Sync Event]
+    I --> L[messages]
+    L --> M[langchain_messages_to_copilotkit]
+    M --> N[Client Messages]
+    end
+
+    K --> O[Client]
+    N --> O
+```
+
+Key Concepts:
+
+1. Thread Management (스레드 관리):
+   - 각 대화는 고유한 thread_id로 식별됩니다
+   - Checkpointer가 스레드별 상태를 영속화합니다
+   - thread_id를 재사용하여 이전 대화를 이어갈 수 있습니다
+
+2. Node-based Execution (노드 기반 실행):
+   - LangGraph는 노드들의 그래프로 구성됩니다
+   - node_name을 지정하여 특정 노드부터 실행을 재개할 수 있습니다
+   - 각 노드 전환 시 상태 동기화 이벤트가 발생합니다
+
+3. Streaming Events (스트리밍 이벤트):
+   - on_chat_model_stream: AI 모델의 응답 스트리밍
+   - on_copilotkit_state_sync: 에이전트 상태 동기화
+   - on_tool_calls: 도구 호출 정보
+   - on_copilotkit_interrupt: 사용자 입력 대기
+   - on_copilotkit_error: 에러 발생
+
+4. Interrupt Handling (인터럽트 처리):
+   - LangGraph의 interrupt() 호출로 실행을 일시 중지
+   - 사용자 입력을 받아 Command(resume=...)로 재개
+   - 인터럽트 이벤트를 통해 클라이언트에 프롬프트 표시
+
+5. State Schema (상태 스키마):
+   - get_input_jsonschema: 입력 상태의 허용 필드 정의
+   - get_output_jsonschema: 출력 상태의 허용 필드 정의
+   - filter_state_on_schema_keys: 스키마에 따라 상태 필터링
+
+6. Message Regeneration (메시지 재생성):
+   - 특정 메시지부터 다시 생성 (마지막 응답 재생성)
+   - get_checkpoint_before_message로 체크포인트 탐색
+   - prepare_regenerate_stream으로 재생성 스트림 준비
+"""
 
 import uuid
 import json

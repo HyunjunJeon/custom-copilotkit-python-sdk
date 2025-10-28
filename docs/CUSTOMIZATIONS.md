@@ -67,6 +67,72 @@ To re-enable CrewAI support, search for all lines containing `# CUSTOMIZATION: C
 
 ---
 
+### #2: Added Comprehensive Korean Documentation
+**Date**: 2025-10-28
+**Impact**: Documentation - No functional changes
+**Files Modified**:
+- `copilotkit_sdk/copilotkit/integrations/fastapi.py` - Added Korean comments and Mermaid diagrams
+- `copilotkit_sdk/copilotkit/langgraph_agent.py` - Added comprehensive module documentation
+- `copilotkit_sdk/copilotkit/langgraph_agui_agent.py` - Added detailed Korean comments
+
+**Purpose**:
+향후 유지보수와 팀 협업을 위해 핵심 모듈에 자세한 한글 주석과 Mermaid 다이어그램을 추가했습니다.
+특히 Request → Handler → Response 플로우를 시각적으로 이해할 수 있도록 문서화했습니다.
+
+**Changes Summary**:
+
+1. **FastAPI Integration (`fastapi.py`)**:
+   - 모듈 레벨 개요 및 Request Flow 다이어그램
+   - 각 함수에 대한 상세한 한글 docstring
+   - 주요 엔드포인트별 Execution Flow Mermaid 다이어그램
+   - 에이전트 실행, 액션 실행, 상태 조회 플로우 시각화
+
+2. **LangGraph Agent (`langgraph_agent.py`)**:
+   - 모듈 레벨 아키텍처 다이어그램 (6개 Mermaid 다이어그램)
+   - Architecture Overview: 전체 컴포넌트 구조
+   - Execution Flow: 시퀀스 다이어그램으로 실행 흐름 설명
+   - State Management: 상태 관리 플로우
+   - Key Concepts: 6가지 핵심 개념 상세 설명
+     - Thread Management
+     - Node-based Execution
+     - Streaming Events
+     - Interrupt Handling
+     - State Schema
+     - Message Regeneration
+
+3. **LangGraph AGUI Agent (`langgraph_agui_agent.py`)**:
+   - 모듈 레벨 이벤트 처리 플로우 다이어그램
+   - Event Processing Flow: 이벤트 변환 과정
+   - Custom Event Dispatch Flow: 시퀀스 다이어그램
+   - Event Filtering: 메타데이터 기반 필터링 로직
+   - 모든 클래스와 메서드에 상세한 한글 docstring
+   - 커스텀 이벤트 처리 로직 상세 설명
+
+**Documentation Features**:
+- 이모지 사용 없음 (전문적인 문서화)
+- 모든 Mermaid 다이어그램은 실행 플로우 시각화에 집중
+- 함수/메서드 파라미터 및 반환값 상세 설명
+- Examples 섹션 포함
+- Notes 섹션으로 주요 포인트 강조
+
+**Testing**:
+- 모든 임포트 정상 작동 확인
+- 기능적 변경 사항 없음 (주석 추가만)
+- 타입 힌트 및 구조 유지
+
+**Upstream Sync Notes**:
+- 영향도: 낮음 - 주석만 추가되었으므로 upstream 병합 시 충돌 없음
+- 주석은 코드와 독립적이므로 upstream 변경에 영향받지 않음
+- 다만, 새로운 기능이 추가되면 해당 부분에도 한글 주석 추가 필요
+
+**Rollback Instructions**:
+주석 제거가 필요한 경우 (권장하지 않음):
+```bash
+git checkout origin/main -- copilotkit_sdk/copilotkit/integrations/fastapi.py
+git checkout origin/main -- copilotkit_sdk/copilotkit/langgraph_agent.py
+git checkout origin/main -- copilotkit_sdk/copilotkit/langgraph_agui_agent.py
+```
+
 ---
 
 ## 커스터마이징 가이드라인
