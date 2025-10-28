@@ -269,29 +269,6 @@ print('✓ All imports successful!')
 
 ---
 
-## 공식 문서 및 지원
-
-- 📚 [공식 문서](https://docs.copilotkit.ai)
-- 💬 [Discord 커뮤니티](https://discord.gg/6dffbvGU)
-- 🐛 [이슈 트래커](https://github.com/CopilotKit/CopilotKit/issues)
-- 🔗 [업스트림 저장소](https://github.com/CopilotKit/CopilotKit)
-
----
-
-## 기여
-
-업스트림에 기여하고 싶으시다면 [Contributing Guidelines](https://github.com/CopilotKit/CopilotKit/blob/main/CONTRIBUTING.md)를 참조하세요.
-
-이 커스터마이징 버전에 대한 제안이나 이슈는 프로젝트 관리자에게 문의해주세요.
-
----
-
-## 라이선스
-
-이 프로젝트는 MIT 라이선스를 따릅니다 - [LICENSE](https://github.com/CopilotKit/CopilotKit/blob/main/LICENSE) 파일 참조.
-
----
-
 **Base Version**: v0.1.70 (2025-10-28)
 **Upstream**: https://github.com/CopilotKit/CopilotKit/tree/main/sdk-python
 **Last Sync**: 2025-10-28
