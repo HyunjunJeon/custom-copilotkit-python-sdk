@@ -462,6 +462,182 @@ Phase 1 완료 후 다음 단계:
 
 ---
 
+### #6: Korean Documentation for Protocol & Runtime (Phase 2)
+**Date**: 2025-10-28
+**Impact**: Documentation - No functional changes
+**Files Modified**:
+- `copilotkit_sdk/copilotkit/protocol.py` - Added comprehensive protocol event documentation
+- `copilotkit_sdk/copilotkit/runloop.py` - Added run loop architecture documentation
+
+**Purpose**:
+Protocol & Runtime System (Phase 2/3)에 해당하는 2개 핵심 파일에 완전한 한글 문서를 추가했습니다.
+CopilotKit의 이벤트 프로토콜과 비동기 런타임 시스템을 상세하게 문서화하여
+내부 동작 방식을 이해하고, 커스터마이징이나 디버깅 시 참고할 수 있도록 합니다.
+
+**Changes Summary**:
+
+1. **`protocol.py`** (~1,350라인):
+   - **Event Protocol Flow State Machine**: 전체 이벤트 흐름 상태 다이어그램
+   - **모듈 문서**: 주요 개념 (Runtime Protocol, Event Categories, Event Lifecycle) 설명
+   - **Usage Examples**: 5가지 실용 예제
+     1. 메시지 스트리밍 (START → CONTENT → END)
+     2. 액션 실행 (START → ARGS → END → RESULT)
+     3. 에이전트 상태 메시지
+     4. 메타 이벤트 (INTERRUPT, PREDICT_STATE, EXIT)
+     5. Lifecycle 이벤트 (RUN/NODE 이벤트)
+   - **Best Practices**: 5가지 모범 사례
+   - **Common Pitfalls**: 5가지 흔한 실수
+   - **Enum 문서**: RuntimeEventTypes (15개), RuntimeMetaEventName (3개)
+   - **TypedDict 문서**: 14개 이벤트 TypedDict 완전 문서화
+     - TextMessageStart, TextMessageContent, TextMessageEnd
+     - ActionExecutionStart, ActionExecutionArgs, ActionExecutionEnd, ActionExecutionResult
+     - AgentStateMessage
+     - MetaEvent
+     - RunStarted, RunFinished, RunError
+     - NodeStarted, NodeFinished
+   - **Union Type 문서**: RuntimeProtocolEvent, RuntimeLifecycleEvent, RuntimeEvent, PredictStateConfig
+   - **Helper Functions**: 11개 헬퍼 함수 완전 문서화
+     - text_message_start/content/end
+     - action_execution_start/args/end/result
+     - agent_state_message
+     - meta_event
+     - emit_runtime_events/emit_runtime_event
+
+2. **`runloop.py`** (~1,080라인):
+   - **3개 Mermaid 다이어그램**:
+     - Run Loop Architecture (flowchart): 메인 프로세스 흐름
+     - Context Management Flow (sequence): 컨텍스트 생명주기
+     - Event Processing Pipeline (state): 이벤트 처리 상태 머신
+   - **모듈 문서**: 핵심 개념 5가지 상세 설명
+     1. Context Variables (컨텍스트 변수)
+     2. Event Queue (이벤트 큐)
+     3. State Prediction (상태 예측)
+     4. Event Handling (이벤트 처리)
+     5. JSON Lines Streaming (JSON Lines 스트리밍)
+   - **Usage Examples**: 3가지 실용 예제
+     1. 기본 Run Loop
+     2. 상태 예측 (Predict State)
+     3. 우선순위 이벤트
+   - **Best Practices**: 5가지 모범 사례
+   - **Common Pitfalls**: 5가지 흔한 실수
+   - **TypedDict 문서**: CopilotKitRunExecution (11개 필드 상세 설명)
+   - **함수 문서**: 15개 함수 완전 문서화
+     - yield_control: 이벤트 루프 제어권 양보
+     - Context Management: get/set/reset_context_queue, get/set/reset_context_execution (6개)
+     - queue_put: 이벤트 큐에 넣기
+     - Utilities: _to_dict_if_pydantic, _filter_state (2개)
+     - **copilotkit_run**: 메인 런 루프 (비동기 제너레이터)
+     - **handle_runtime_event**: 이벤트 처리 핵심 로직
+     - **predict_state**: 실시간 상태 예측
+
+**Documentation Features**:
+- **4개 Mermaid 다이어그램**:
+  - Event Protocol Flow (state machine) - protocol.py
+  - Run Loop Architecture (flowchart) - runloop.py
+  - Context Management Flow (sequence) - runloop.py
+  - Event Processing Pipeline (state machine) - runloop.py
+- **파일별 상세 docstring**: 모든 함수, TypedDict, Enum, Union Type에 한글 docstring
+- **표준 docstring 형식**: Parameters, Returns, Raises, Yields, Examples, Notes, See Also 섹션
+- **실용적 예제**: 각 기능마다 실제 사용 가능한 코드 예제 포함
+- **알고리즘 설명**: predict_state()의 Partial JSON 파싱 알고리즘 단계별 설명
+- **FastAPI SSE 통합 예제**: copilotkit_run()에서 StreamingResponse 사용법 포함
+- **Emoji 없음**: 전문적인 문서 스타일 유지
+
+**Documentation Statistics**:
+- protocol.py: ~1,350라인 추가
+  - 모듈 문서: ~330라인 (1개 다이어그램 포함)
+  - Enum 문서: ~80라인 (2개 Enum)
+  - TypedDict 문서: ~560라인 (14개 TypedDict + 4개 Union)
+  - Helper Functions: ~380라인 (11개 함수)
+- runloop.py: ~1,080라인 추가
+  - 모듈 문서: ~260라인 (3개 다이어그램 포함)
+  - TypedDict 문서: ~110라인 (1개)
+  - 함수 문서: ~710라인 (15개 함수)
+- **총 ~2,430라인**의 한글 문서 추가
+- **총 4개 Mermaid 다이어그램** (아키텍처 및 플로우 시각화)
+
+**Key Technical Concepts Documented**:
+1. **Event Protocol**:
+   - 15가지 이벤트 타입 및 사용 시점
+   - START → CONTENT/ARGS → END 패턴
+   - JSON Lines 직렬화
+   - Enum 값 자동 변환
+
+2. **Run Loop Architecture**:
+   - asyncio.Queue 기반 이벤트 큐
+   - Context Variables로 스레드 안전 상태 공유
+   - yield_control()을 통한 우선순위 처리
+   - AsyncGenerator로 SSE 스트리밍
+
+3. **State Prediction**:
+   - Partial JSON Parsing (PartialJSONParser)
+   - 실시간 액션 인자 파싱
+   - @copilotkit_customize_config 연동
+   - argument_buffer 누적 및 파싱
+
+4. **Event Processing**:
+   - Protocol Events: 클라이언트 직접 전송
+   - Meta Events: 런타임 설정 업데이트
+   - Lifecycle Events: AgentStateMessage 변환
+
+**Testing**:
+```bash
+# 모든 임포트 및 기능 정상 작동 확인
+uv run python -c "
+from copilotkit.protocol import (
+    RuntimeEventTypes, RuntimeMetaEventName,
+    TextMessageStart, ActionExecutionResult,
+    text_message_start, emit_runtime_events
+)
+from copilotkit.runloop import (
+    CopilotKitRunExecution, copilotkit_run,
+    queue_put, handle_runtime_event, predict_state
+)
+print('✓ All imports successful!')
+print('✓ Documentation added without breaking functionality')
+"
+```
+- ✅ 모든 임포트 정상 작동
+- ✅ 기능적 변경 사항 없음 (문서만 추가)
+- ✅ 타입 힌트 및 구조 유지
+- ✅ 기존 코드 동작 변경 없음
+
+**Upstream Sync Notes**:
+- 영향도: 낮음 - 문서만 추가되었으므로 upstream 병합 시 충돌 가능성 낮음
+- 문서는 코드와 독립적이므로 upstream 변경에 영향받지 않음
+- 다만, 새로운 이벤트 타입이나 함수가 추가되면 해당 부분에도 한글 문서 추가 필요
+- 함수 시그니처나 이벤트 구조 변경 시 docstring도 함께 업데이트 필요
+
+**Rollback Instructions**:
+문서 제거가 필요한 경우 (권장하지 않음):
+```bash
+git checkout origin/main -- copilotkit_sdk/copilotkit/protocol.py
+git checkout origin/main -- copilotkit_sdk/copilotkit/runloop.py
+```
+
+**Related Customizations**:
+이 문서화는 3단계 계획의 두 번째(Phase 2)입니다:
+- **Phase 1 (완료, #5)**: Core API Bundle (__init__, action, parameter, agent) - ~2,086라인, 4개 다이어그램
+- **Phase 2 (이번 작업)**: Protocol & Runtime System (protocol.py, runloop.py) - ~2,430라인, 4개 다이어그램
+- **Phase 3 (예정)**: Supporting Utilities (exc.py, logging.py, utils.py, html.py) - 예상 ~400-600라인
+
+전체 문서화가 완료되면 #2, #3, #4, #5와 함께 SDK의 완전한 한글 문서 세트를 구성합니다.
+
+**Next Steps**:
+Phase 2 완료 후 다음 단계:
+1. Phase 3: Supporting Utilities 문서화 (exc.py, logging.py, utils.py, html.py)
+   - 예상 라인 수: ~400-600라인
+   - 예상 다이어그램: 1-2개 (Exception Hierarchy, Logging Flow 등)
+   - 예상 완료: 2025-10-28
+
+**Progress Tracking**:
+- Phase 1: ✅ 완료 (~2,086라인, 4개 다이어그램)
+- Phase 2: ✅ 완료 (~2,430라인, 4개 다이어그램)
+- Phase 3: ⏳ 예정 (~400-600라인 예상)
+- **누적 총계**: ~4,516라인, 8개 다이어그램
+
+---
+
 ## 커스터마이징 가이드라인
 
 ### 새 파일 추가 (권장)
