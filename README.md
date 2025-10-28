@@ -10,15 +10,15 @@ CopilotKit Python SDK를 기반으로 한 커스텀 버전입니다. LangGraph v
 
 이 프로젝트는 CopilotKit 공식 Python SDK를 기반으로 다음과 같은 커스터마이징을 적용했습니다:
 
-- ✅ **LangGraph v1.0.1 완전 호환 검증** (15개 테스트 100% 통과)
-- ✅ **전체 코드베이스 한글 문서화** (~5,116 lines, 9 Mermaid diagrams)
-- ✅ **포괄적 테스트 인프라 구축** (pytest, fixtures, 146개 테스트 케이스 계획)
-- ✅ **CrewAI 지원 제거** (LangGraph 전용)
-- ✅ **Python 3.13 지원**
+- **LangGraph v1.0.1 완전 호환 검증** (15개 테스트 100% 통과)
+- **전체 코드베이스 한글 문서화** (~5,116 lines, 9 Mermaid diagrams)
+- **포괄적 테스트 인프라 구축** (pytest, fixtures, 146개 테스트 케이스 계획)
+- **CrewAI 지원 제거** (LangGraph 전용)
+- **Python 3.13 지원**
 
 ## 주요 특징
 
-### 1. LangGraph v1.0 완전 호환 ✅
+### 1. LangGraph v1.0 완전 호환
 
 ```bash
 # 호환성 테스트 실행
@@ -63,7 +63,7 @@ copilotkit_sdk/tests/
 │   ├── sample_graphs.py
 │   └── sample_configs.py
 └── test_langgraph_v1_compatibility/ # LangGraph v1.0 호환성 테스트
-    └── test_core_apis.py            # 15 tests ✅
+    └── test_core_apis.py            # 15 tests
 ```
 
 테스트 계획: [`docs/TEST_PLAN.md`](./docs/TEST_PLAN.md) (146 test cases)
@@ -202,10 +202,10 @@ open copilotkit_sdk/htmlcov/index.html
 
 ### 핵심 문서
 
-- 📚 [**테스트 계획**](./docs/TEST_PLAN.md) - 포괄적 테스트 전략 (146 test cases)
-- ✅ [**LangGraph v1.0 호환성**](./docs/LANGGRAPH_V1_COMPATIBILITY.md) - 호환성 검증 보고서
-- 🔧 [**커스터마이징 내역**](./docs/CUSTOMIZATIONS.md) - 모든 변경사항 추적
-- 🗺️ [**코드 탐색 가이드**](./docs/CODE_NAVIGATION.md) - 코드베이스 네비게이션
+- [**테스트 계획**](./docs/TEST_PLAN.md) - 포괄적 테스트 전략 (146 test cases)
+- [**LangGraph v1.0 호환성**](./docs/LANGGRAPH_V1_COMPATIBILITY.md) - 호환성 검증 보고서
+- [**커스터마이징 내역**](./docs/CUSTOMIZATIONS.md) - 모든 변경사항 추적
+- [**코드 탐색 가이드**](./docs/CODE_NAVIGATION.md) - 코드베이스 네비게이션
 
 ### 코드 내 문서
 
@@ -301,10 +301,10 @@ MIT License (CopilotKit 공식 SDK와 동일)
 
 ## 참고 링크
 
-- 🔗 [CopilotKit 공식 문서](https://docs.copilotkit.ai/)
-- 🔗 [CopilotKit GitHub](https://github.com/CopilotKit/CopilotKit)
-- 🔗 [LangGraph 문서](https://langchain-ai.github.io/langgraph/)
-- 🔗 [LangChain 문서](https://python.langchain.com/)
+- [CopilotKit 공식 문서](https://docs.copilotkit.ai/)
+- [CopilotKit GitHub](https://github.com/CopilotKit/CopilotKit)
+- [LangGraph 문서](https://langchain-ai.github.io/langgraph/)
+- [LangChain 문서](https://python.langchain.com/)
 
 ## 문의
 
@@ -313,4 +313,4 @@ MIT License (CopilotKit 공식 SDK와 동일)
 ---
 
 **Last Updated**: 2025-10-29
-**Status**: ✅ Production-ready with LangGraph v1.0.1
+**Status**: Production-ready with LangGraph v1.0.1
