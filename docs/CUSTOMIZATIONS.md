@@ -14,55 +14,58 @@ Upstream 업데이트 시 커스터마이징한 부분을 보존하고 충돌을
 
 ## 커스터마이징 내역
 
-> 아래에 각 커스터마이징 항목을 추가하세요.
-
 ---
 
-### 예시: Custom Agent Implementation
+### #1: Disabled CrewAI Support (LangGraph Only)
 **Date**: 2025-10-28
+**Impact**: Major - Framework support removed
 **Files Modified**:
-- `copilotkit_sdk/copilotkit/custom_agent.py` (new file)
+- `copilotkit_sdk/copilotkit/__init__.py` - Commented out CrewAIAgent export
+- `copilotkit_sdk/copilotkit/sdk.py` - Commented out CrewAI installation docs
+- `copilotkit_sdk/copilotkit/html.py` - Commented out CrewAI agent type handling
+- `copilotkit_sdk/copilotkit/crewai/__init__.py` - Disabled all imports and exports
+- `copilotkit_sdk/pyproject.toml` - Commented out crewai dependency and extras
 
-**Purpose**: 특정 비즈니스 로직을 처리하는 커스텀 에이전트 추가
+**Purpose**:
+Focus exclusively on LangGraph framework support. Remove CrewAI integration to:
+- Simplify the SDK codebase
+- Reduce dependency complexity
+- Align with project requirements (LangGraph-only architecture)
 
-**Changes**:
+**Changes Summary**:
+1. **Main __init__.py**: Commented out `'CrewAIAgent'` from `__all__` list
+2. **SDK Documentation**: Commented out CrewAI installation instructions in docstring
+3. **HTML Rendering**: Disabled CrewAI agent type detection in info page
+4. **CrewAI Module**: All imports disabled in `crewai/__init__.py`, `__all__` set to empty list
+5. **Dependencies**: Removed crewai optional dependency from pyproject.toml
+
+**Code Markers**:
+All changes are marked with:
 ```python
-# Added new CustomAgent class
-class CustomAgent(Agent):
-    def __init__(self, custom_param: str):
-        super().__init__()
-        self.custom_param = custom_param
-
-    def execute(self):
-        # Custom logic here
-        pass
+# CUSTOMIZATION: CrewAI support disabled
 ```
 
+**Testing**:
+- ✅ LangGraph imports work correctly (CopilotKitSDK, LangGraphAgent, etc.)
+- ✅ CrewAI imports fail as expected (ImportError)
+- ✅ CrewAI module has empty __all__ list
+
 **Upstream Sync Notes**:
-- 이 파일은 새로 추가된 것이므로 upstream 업데이트 시 영향 없음
-- 단, `Agent` base class가 변경되면 호환성 검토 필요
+- ⚠️ **HIGH IMPACT**: When syncing upstream, need to reapply all CrewAI-related comments
+- Affected files: `__init__.py`, `sdk.py`, `html.py`, `crewai/__init__.py`, `pyproject.toml`
+- Files to watch:
+  - If upstream adds new CrewAI features, manually decide whether to comment them out
+  - If upstream modifies existing CrewAI code, our comments should remain intact
+- **Migration strategy**: Search for "CUSTOMIZATION: CrewAI" marker before upstream merge
+- Consider creating a patch file for easier reapplication:
+  ```bash
+  git diff copilotkit_sdk/ > patches/disable-crewai.patch
+  ```
+
+**Rollback Instructions**:
+To re-enable CrewAI support, search for all lines containing `# CUSTOMIZATION: CrewAI` and uncomment the relevant code sections.
 
 ---
-
-### 예시: Modified Protocol Handler
-**Date**: 2025-10-28
-**Files Modified**:
-- `copilotkit_sdk/copilotkit/protocol.py`
-
-**Purpose**: 프로토콜 핸들링에 추가 로깅 기능 추가
-
-**Changes**:
-```diff
-# Line 45-50
-def handle_message(self, message):
-+   logger.debug(f"Handling message: {message}")
-    # existing code...
-```
-
-**Upstream Sync Notes**:
-- ⚠️ Upstream에서 `protocol.py`가 변경되면 충돌 가능성 높음
-- 업데이트 시 로깅 코드를 다시 적용해야 함
-- 향후 고려사항: 로깅을 별도 wrapper로 분리 검토
 
 ---
 

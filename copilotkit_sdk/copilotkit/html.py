@@ -160,8 +160,9 @@ def generate_info_html(info: InfoDict) -> str:
         agent_type = agent.get("type", "Unknown")
         if agent_type == "langgraph":
             agent_type = "LangGraph"
-        elif agent_type == "crewai":
-            agent_type = "CrewAI"
+        # CUSTOMIZATION: CrewAI support disabled
+        # elif agent_type == "crewai":
+        #     agent_type = "CrewAI"
 
         agent_html += AGENT_TEMPLATE.format(
             name=agent["name"],

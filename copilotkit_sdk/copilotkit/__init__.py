@@ -10,15 +10,15 @@ from .langgraph_agui_agent import LangGraphAGUIAgent
 
 
 __all__ = [
-    'CopilotKitRemoteEndpoint', 
+    'CopilotKitRemoteEndpoint',
     'CopilotKitSDK',
-    'Action', 
-    'CopilotKitState',    
+    'Action',
+    'CopilotKitState',
     'Parameter',
     'Agent',
     'CopilotKitContext',
     'CopilotKitSDKContext',
-    'CrewAIAgent', # pyright: ignore[reportUnsupportedDunderAll] pylint: disable=undefined-all-variable
+    # 'CrewAIAgent', # pyright: ignore[reportUnsupportedDunderAll] pylint: disable=undefined-all-variable  # CUSTOMIZATION: CrewAI support disabled
     'LangGraphAgent', # pyright: ignore[reportUnsupportedDunderAll] pylint: disable=undefined-all-variable
     "LangGraphAGUIAgent"
 ]
